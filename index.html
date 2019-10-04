@@ -6,6 +6,37 @@
         <link rel="stylesheet" href="css/styles.css" type="text/css">
     </head>
     <body>
-        <script src="JavaScript/test.js" type="text/javascript"></script>
+        <section id="title">
+            <div class="bg">
+                <p>js<br>四日目</p>
+                <button type="button" onclick="ToCountDown()">すたーと</button>
+            </div>
+        </section>
+        
+        <section id="countDown">
+            <div class="bg">
+                <p>a</p>
+            </div>
+        </section>
+
+        <section id="result">
+                <div class="bg">
+                    <p class="const">結果</p>
+                    <p class="score">すこあ：000</p>
+                    <button type="button" onclick="ToTitle()">たいとるへ</button>
+                </div>
+            </section>
+
+        <section id="gameMain">
+                <div class="bg">
+                    <p>終了！</p>
+                </div>
+            <header id="headerPanel">
+                    <!-- <p id="time">Time<br>30.00</p>
+                    <p id="score">Score<br>0</p> -->
+            </header>
+            <div id="panelbox"></div>
+        </section>
     </body>
+    <script src="JavaScript/test.js" type="text/javascript"></script>
 </html>

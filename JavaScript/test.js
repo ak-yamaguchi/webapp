@@ -1,6 +1,6 @@
 'use script';
 
-    const num = 5;
+    const num = 16;
 
     var winner = Math.floor(Math.random() * num);
 
@@ -9,10 +9,122 @@
     var green;
     var blue;
 
-    var correctColor;   //正解の色
-    var inCorrectColor; //不正解の色
+    var correctColor;           //正解の色
+    var inCorrectColor;         //不正解の色
 
-    CreatePanel();
+    var isInputDelay = false;   //正解を押してから次を押せるようになるまでの時間
+
+    const diffNum = 20;         //正解の色を生成するときの差異
+
+    var isPlayGame = true;      //デバッグようにとりあえずtrue
+
+    var timeCount = 30;         //ゲームのカウント
+
+    var scoreCount = 0;         //スコアのカウント
+
+    var timeTextContent;        //メイン部分のテキスト挿入部分の取得
+
+    var sectionTitle;           //タイトルの取得
+
+    var sectionCountDown;
+
+    var sectionGameMain;
+
+    var sectionResult;
+
+    var endOverRay = document.querySelector('#gameMain .bg');
+
+    var countDownText = document.querySelector('#countDown .bg p');
+
+    var scoreText = document.querySelector('#result .bg .score');
+
+    var gameTimer;
+
+    GetAttachId();
+
+    function GetAttachId()
+    {
+        timeTextContent  = document.getElementById("headerPanel");
+        sectionTitle     = document.getElementById("title");
+        sectionCountDown = document.getElementById("countDown");
+        sectionGameMain  = document.getElementById("gameMain");
+        sectionResult    = document.getElementById("result");
+    }
+
+    function StartCountDown()
+    {
+        setTimeout(InCountDownText, 1000, "3");
+        setTimeout(InCountDownText, 2500, "2");
+        setTimeout(InCountDownText, 4000, "1");
+        setTimeout(InCountDownText, 5500, "Start!");
+        setTimeout(ToGameMain, 7000);
+    }
+
+    ////////////
+    function InCountDownText(countText)
+    {
+        countDownText.innerText = countText;
+        countDownText.classList.add('textScaleUp');
+        countDownText.classList.add('textFadeIn');
+        setTimeout(OutCountDownText, 700)
+    }
+    function OutCountDownText()
+    {
+        countDownText.classList.remove('textFadeIn');
+        countDownText.classList.add('textFadeOut');
+        setTimeout(ClearCountText, 300)
+    }
+    function ClearCountText()
+    {
+        countDownText.classList.remove('textScaleUp');
+        countDownText.classList.remove('textFadeOut');
+    }
+    //////////////
+
+    function ToCountDown()
+    {
+        StartCountDown();
+        sectionCountDown.style.zIndex = 3;
+        sectionGameMain.style.zIndex = 2;
+        sectionResult.style.zIndex = 1;
+        sectionTitle.style.zIndex = 0;
+    }
+
+    function ToGameMain()
+    {
+        //sectionTitle.style.zIndex = -1;
+
+        sectionGameMain.style.zIndex = 3;
+        sectionResult.style.zIndex = 2;
+        sectionTitle.style.zIndex = 1;
+        sectionCountDown.style.zIndex = 0;
+
+        isPlayGame = true;
+        timeCount = 30;
+        scoreCount = 0;
+        CreatePanel();
+        CountDown();
+    }
+
+    function ToResult()
+    {
+        DeletePanel();
+        endOverRay.style.zIndex = -1;
+        scoreText.innerText = "スコア：" + scoreCount;
+        
+        sectionResult.style.zIndex =3;
+        sectionTitle.style.zIndex = 2;
+        sectionCountDown.style.zIndex = 1;
+        sectionGameMain.style.zIndex = 0;
+    }
+
+    function ToTitle()
+    {
+        sectionTitle.style.zIndex = 3;
+        sectionCountDown.style.zIndex = 2;
+        sectionGameMain.style.zIndex = 1;
+        sectionResult.style.zIndex = 0;
+    }
 
     //パネルの初期配置
     function CreatePanel()
@@ -21,11 +133,15 @@
 
         GetRandomColor();
 
+        var parentContent = document.getElementById('panelbox');
+
         for(let i = 0; i < num; i++)
         {
             const div = document.createElement('div');
 
             div.classList.add('box');
+            setTimeout(FadeIn, 15);
+            //div.classList.add('fadein');
             
             //ここで色更新
             if(i === winner)
@@ -41,22 +157,81 @@
             {
                 if(i === winner)
                 {
-                    div.textContent = 'Win';
+                    div.textContent = '◎';
                     div.classList.add('win');
-                    setTimeout(ResetPanel, 1000);
-                    div.removeEventListener('click', arguments.callee);
+                    //setTimeout(ResetPanel, 1000);
+                    ClearPanel();
+                    div.removeEventListener('click', arguments.callee, false);
+                    scoreCount++;
                 }
                 else
                 {
-                    div.textContent = 'Lose';
+                    div.textContent = '✖︎';
                     div.classList.add('lose');
-                    div.removeEventListener('click', arguments.callee);
+                    //div.removeEventListener('click', arguments.callee);
                 }
             });
 
-            document.body.appendChild(div);
+            //document.body.firstElementChild.appendChild(div);
+            parentContent.appendChild(div);
         }
     }
+
+    function FadeIn()
+    {
+        var divs =  document.querySelectorAll(".box");
+
+        for(let i = 0; i < divs.length; i++)
+        {
+            divs[i].classList.add('fadein');
+        }
+    }
+
+    function ClearPanel()
+    {
+        var divs =  document.querySelectorAll(".box");
+
+        for(let i = 0; i < divs.length; i++)
+        {
+            divs[i].classList.add('clear');
+        }
+
+        setTimeout(DeletePanel, 515);
+        setTimeout(CreatePanel, 515);
+    }
+
+    function DeletePanel()
+    {
+        var divs =  document.querySelectorAll(".box");
+
+        for(let i = 0; i < divs.length; i++)
+        {
+            divs[i].parentNode.removeChild(divs[i]);
+        }
+    }
+
+    function CountDown()
+    {
+        if(isPlayGame)
+        {
+            timeTextContent.innerHTML = "<p id = 'time'>Time<br>" + timeCount.toFixed(1) +
+             "</p>" + "<p id='score'>Score<br>" + scoreCount + "</p>";
+            timeCount -= 0.1.toFixed(1);
+            //console.log(0.1.toFixed(2));
+            setTimeout(CountDown, 100);
+            if(timeCount < 0.0)
+            {
+                isPlayGame = false;
+                timeCount = 0;
+                timeTextContent.innerHTML = "<p id = 'time'>Time<br>" + timeCount.toFixed(1) +
+                 "</p>" + "<p id='score'>Score<br>" + scoreCount + "</p>";
+                 endOverRay.style.zIndex = 6;
+                 setTimeout(ToResult, 2500);
+            }
+        }
+    }
+    
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //パネルの初期化
     function InitPanel()
@@ -72,15 +247,12 @@
                     divs[i].textContent = 'Win';
                     divs[i].classList.add('win');
                     setTimeout(ResetPanel, 1000);
-                    for(let i = 0; i < divs.length; i++)
-                    {
-                        divs[i].removeEventListener('click', arguments.callee, false);
-                    }
                 }
                 else
                 {
                     divs[i].textContent = 'Lose';
                     divs[i].classList.add('lose');
+                    //divs[i].removeEventListener('click', arguments.callee, false);
                 }
             });
         }
@@ -102,7 +274,6 @@
         
         ChangeColor();
         InitPanel();
-        // window.open("http://www.yahoo.co.jp/", "yahoo");
     }
 
     function UpdatePanel(i)
@@ -143,24 +314,39 @@
 
     function GetRandomColor()
     {
-        const flg = Math.random() * 10 < 5 ? true : false
-        console.log(flg);
+        // const flg = Math.random() * 10 < 5 ? true : false
 
-        var category = Math.floor(Math.random() * (3) + 0); //rgbどれの数値をいじるか
+        const colorMax = 225;  //色の最大値
 
-        // red = Math.floor(Math.random() * 255);
-        red = Math.floor(Math.random() * (225 - 30) + 30);
-        green = Math.floor(Math.random() * (225 - 30) + 30);
-        blue = Math.floor(Math.random() * (225 - 30) + 30);
+        var category = Math.floor(Math.random() * 3); //rgbどれの数値をいじるか
 
-        correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
-        inCorrectColor = 'rgb(' + (red + 40) + ', ' + green + ', ' + blue + ')';
+        switch(category)
+        {
+            case 0:
+                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+        
+                correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+                inCorrectColor = 'rgb(' + (red + diffNum) + ', ' + green + ', ' + blue + ')';
+            break;
 
-        // console.log(correctColor);
-        // console.log(inCorrectColor);
-    }
+            case 1:
+                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+        
+                correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+                inCorrectColor = 'rgb(' + red + ', ' + (green + diffNum) + ', ' + blue + ')';
+            break;
 
-    function hoge()
-    {
-        console.log("aaa");
+            case 2:
+                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+        
+                correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+                inCorrectColor = 'rgb(' + red + ', ' + green + ', ' + (blue + diffNum) + ')';
+            break;
+        }
     }

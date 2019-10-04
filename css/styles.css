@@ -1,29 +1,275 @@
 
         body
         {
-            display: flex;
-            flex-wrap: wrap;
+            /* display: flex; */
+            /* flex-wrap: wrap; */
         }
+
+        /* タイトル */
+        
+        #title
+        {
+            position: relative;
+            z-index: 3;
+        }
+
+        #title .bg
+        {
+            position: fixed;
+            background: black;
+            opacity: 1;
+            width: 100%;
+            height: 580px;
+            display: table;
+            text-align: center;
+        }
+
+        #title .bg p
+        {
+            color: white;
+            font-size: 40px;
+            margin: 0;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 200px;
+        }
+
+        #title .bg button
+        {
+            border: 2px solid white;
+            border-radius: 5px;
+            background-color: black;
+            padding: 10px;
+            text-align: center;
+            font-size: 30px;
+            color: white;
+            width: 200px;
+            margin: 0;
+            display:table-cell;
+            vertical-align:middle;
+            margin-top: 70px;
+        }
+
+        /* カウントダウン */
+
+        #countDown
+        {
+            position: relative;
+            z-index: 2;
+        }
+
+        #countDown .bg
+        {
+            position: fixed;
+            background: black;
+            opacity: 1;
+            width: 100%;
+            height: 580px;
+            display: table;
+            text-align: center;
+        }
+
+        #countDown .bg p
+        {
+            color: white;
+            font-size: 80px;
+            margin: 0;
+            font-weight: bold;
+            text-align: center;
+            display:table-cell;
+            vertical-align:middle;
+            transform: scale(0);
+            opacity: 0.5;
+        }
+
+        .textScaleUp
+        {
+            transition: 1s;
+            transform: scale(1) !important;
+        }
+
+        .textFadeIn
+        {
+            transition: 0.7s;
+            /* transform: scale(1) !important; */
+            opacity: 1 !important;
+        }
+
+        .textFadeOut
+        {
+            transition: 0.3s;
+            transform: scale(0.5) !important;
+            opacity: 0 !important;
+        }
+
+        /* ゲームメイン */
+
+        #gameMain
+        {
+            position: relative;
+            z-index: 1;
+        }
+
+        #gameMain .bg
+        {
+            position: fixed;
+            background: black;
+            opacity: 1;
+            width: 100%;
+            height: 580px;
+            display: table;
+            text-align: center;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        #gameMain .bg p
+        {
+            color: white;
+            font-size: 40px;
+            margin: 0;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 250px;
+        }
+
+        /* header */
+
+        #headerPanel
+        {
+            width: 440px;
+            height: 140px;
+            background: black;
+            text-align: center;
+            margin: 0 auto;
+            display: table;
+        }
+
+        #headerPanel #time
+        {
+            color: white;
+            font-size: 40px;
+            margin: 0;
+            font-weight: bold;
+            display:table-cell;
+            vertical-align:middle;
+        }
+
+        #headerPanel #score
+        {
+            color: white;
+            font-size: 30px;
+            margin: 0;
+            font-weight: bold;
+            margin-top: 30px;
+            /* display:table-cell; */
+            /* vertical-align:middle; */
+        }
+
+        /* Panal周り */
+
+        #panelbox
+        {
+            width: 440px;
+            height: 440px;
+            background: black;
+            text-align: center;
+            margin: 0 auto;
+        }
+
         .box
         {
             width: 100px;
             height: 100px;
             background: skyblue;
             cursor: pointer;
-            transition: 0.8s;
-            margin: 0 8px 8px 0;
+            transition: 0.5s;
+            margin: 5px;
             text-align: center;
             line-height: 100px;
+            opacity: 0;
+            float: left;
+            transform: scale(0.3);
+            font-size: 30px;
         }
+
+        .fadein
+        {
+            opacity: 1;
+            transform: scale(1);
+        }
+
         .win
         {
             background: pink;
             border-radius: 50%;
             transform: rotate(360deg);
-            transition: 0.8s;
+            transition: 0.7s;
         }
+
         .lose
         {
             transform: scale(0.9);
-            transition: 0.8s;
+            transition: 0.5s;
+        }
+
+        .clear
+        {
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        /* リザルト */
+
+        #result
+        {
+            position: relative;
+            z-index: 0;
+        }
+
+        #result .bg
+        {
+            position: fixed;
+            background: black;
+            opacity: 1;
+            width: 100%;
+            height: 580px;
+            display: table;
+            text-align: center;
+        }
+
+        #result .bg .const
+        {
+            color: white;
+            font-size: 60px;
+            margin: 0;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        #result .bg .score
+        {
+            color: white;
+            font-size: 40px;
+            margin: 0;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #result .bg button
+        {
+            border: 2px solid white;
+            border-radius: 5px;
+            background-color: black;
+            padding: 10px;
+            text-align: center;
+            font-size: 30px;
+            color: white;
+            width: 200px;
+            margin: 0;
+            display:table-cell;
+            vertical-align:middle;
+            margin-top: 70px;
         }
