@@ -3,7 +3,7 @@
 
     const COLOR_MAX = 225;             //色の最大値
 
-    const DIFF_COLOR_NUM = 25;         //正解の色を生成するときの差異
+    const DIFF_COLOR_NUM = 20;         //正解の色を生成するときの差異
 
     const COUNT_DOWN_TIME = 1100;
 
