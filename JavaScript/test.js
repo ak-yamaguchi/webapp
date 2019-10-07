@@ -10,6 +10,7 @@
     var blue;
 
     var correctColor;           //正解の色
+
     var inCorrectColor;         //不正解の色
 
     var isInputDelay = false;   //正解を押してから次を押せるようになるまでの時間
@@ -24,12 +25,10 @@
 
     var timeTextContent;        //メイン部分のテキスト挿入部分の取得
 
-    var sectionTitle;           //タイトルの取得
-
-    var sectionCountDown;
-
+    //各セクション
+    var sectionTitle;     
+    var sectionCountDown;     
     var sectionGameMain;
-
     var sectionResult;
 
     var endOverRay = document.querySelector('#gameMain .bg');
@@ -37,8 +36,6 @@
     var countDownText = document.querySelector('#countDown .bg p');
 
     var scoreText = document.querySelector('#result .bg .score');
-
-    var gameTimer;
 
     GetAttachId();
 
@@ -230,6 +227,45 @@
             }
         }
     }
+
+    function GetRandomColor()
+    {
+        // const flg = Math.random() * 10 < 5 ? true : false
+
+        const colorMax = 225;  //色の最大値
+
+        var category = Math.floor(Math.random() * 3); //rgbどれの数値をいじるか
+
+        switch(category)
+        {
+            case 0:
+                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+        
+                correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+                inCorrectColor = 'rgb(' + (red + diffNum) + ', ' + green + ', ' + blue + ')';
+            break;
+
+            case 1:
+                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+        
+                correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+                inCorrectColor = 'rgb(' + red + ', ' + (green + diffNum) + ', ' + blue + ')';
+            break;
+
+            case 2:
+                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+        
+                correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+                inCorrectColor = 'rgb(' + red + ', ' + green + ', ' + (blue + diffNum) + ')';
+            break;
+        }
+    }
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -312,41 +348,4 @@
         }
     }
 
-    function GetRandomColor()
-    {
-        // const flg = Math.random() * 10 < 5 ? true : false
-
-        const colorMax = 225;  //色の最大値
-
-        var category = Math.floor(Math.random() * 3); //rgbどれの数値をいじるか
-
-        switch(category)
-        {
-            case 0:
-                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-        
-                correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
-                inCorrectColor = 'rgb(' + (red + diffNum) + ', ' + green + ', ' + blue + ')';
-            break;
-
-            case 1:
-                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-        
-                correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
-                inCorrectColor = 'rgb(' + red + ', ' + (green + diffNum) + ', ' + blue + ')';
-            break;
-
-            case 2:
-                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-        
-                correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
-                inCorrectColor = 'rgb(' + red + ', ' + green + ', ' + (blue + diffNum) + ')';
-            break;
-        }
-    }
+    
