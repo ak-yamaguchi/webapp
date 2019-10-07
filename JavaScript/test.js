@@ -1,46 +1,46 @@
 
-    const num = 16;
+    const PANEL_NUM = 16;              //パネルの数
 
-    var winner = Math.floor(Math.random() * num);
+    const COLOR_MAX = 225;             //色の最大値
 
-    const colorMax = 225;  //色の最大値
+    const DIFF_COLOR_NUM = 25;         //正解の色を生成するときの差異
+
+    const COUNT_DOWN_TIME = 1100;
+
+    let winner = Math.floor(Math.random() * PANEL_NUM);
 
     //パネルの色の乱数用
-    var red;
-    var green;
-    var blue;
+    let red;
+    let green;
+    let blue;
 
-    var correctColor;           //正解の色
+    let correctColor;           //正解の色
 
-    var inCorrectColor;         //不正解の色
+    let inCorrectColor;         //不正解の色
 
-    var isInputDelay = false;   //正解を押してから次を押せるようになるまでの時間
+    let isInputDelay = false;   //正解を押してから次を押せるようになるまでの時間
 
-    const diffNum = 20;         //正解の色を生成するときの差異
+    let isPlayGame = true;      //デバッグようにとりあえずtrue
 
-    var isPlayGame = true;      //デバッグようにとりあえずtrue
+    let timeCount;              //ゲームのカウント
 
-    var timeCount = 30;         //ゲームのカウント
+    let scoreCount = 0;         //スコアのカウント
 
-    var scoreCount = 0;         //スコアのカウント
-
-    var timeTextContent;        //メイン部分のテキスト挿入部分の取得
+    let timeTextContent;        //メイン部分のテキスト挿入部分の取得
 
     //各セクション
-    var sectionTitle;     
-    var sectionCountDown;     
-    var sectionGameMain;
-    var sectionResult;
+    let sectionTitle;     
+    let sectionCountDown;     
+    let sectionGameMain;
+    let sectionResult;
 
-    var endOverRay = document.querySelector('#gameMain .bg');
+    let endOverRay = document.querySelector('#gameMain .bg');
 
-    var countDownText = document.querySelector('#countDown .bg p');
+    let countDownText = document.querySelector('#countDown .bg p');
 
-    var scoreText = document.querySelector('#result .bg .score');
+    let scoreText = document.querySelector('#result .bg .score');
 
-    var resultText = document.querySelector('#result .bg .resultText');
-
-    const countDownTime = 1100;
+    let resultText = document.querySelector('#result .bg .resultText');
 
     GetAttachId();
 
@@ -57,11 +57,11 @@
     //カウントダウン処理の挙動
     function StartCountDown()
     {
-        setTimeout(InCountDownText, countDownTime, "3");
-        setTimeout(InCountDownText, countDownTime * 2, "2");
-        setTimeout(InCountDownText, countDownTime * 3, "1");
-        setTimeout(InCountDownText, countDownTime * 4, "Start!");
-        setTimeout(ToGameMain, countDownTime * 5);
+        setTimeout(InCountDownText, COUNT_DOWN_TIME, "3");
+        setTimeout(InCountDownText, COUNT_DOWN_TIME * 2, "2");
+        setTimeout(InCountDownText, COUNT_DOWN_TIME * 3, "1");
+        setTimeout(InCountDownText, COUNT_DOWN_TIME * 4, "Start!");
+        setTimeout(ToGameMain, COUNT_DOWN_TIME * 5);
     }
 
     //カウントダウンの制御
@@ -123,6 +123,7 @@
         sectionGameMain.style.zIndex = 0;
     }
 
+    //スコアに応じてリザルトのテキスト変更
     function GetResultText()
     {
         if(scoreCount <= 5)
@@ -143,7 +144,7 @@
         }
         else
         {
-            return "教祖";
+            return "教祖の素質ある";
         }
     }
 
@@ -159,13 +160,13 @@
     //パネルの初期配置
     function CreatePanel()
     {
-        winner = Math.floor(Math.random() * num);
+        winner = Math.floor(Math.random() * PANEL_NUM);
 
         GetRandomColor();    //色の取得
 
-        var parentContent = document.getElementById('panelbox');
+        let parentContent = document.getElementById('panelbox');
 
-        for(let i = 0; i < num; i++)
+        for(let i = 0; i < PANEL_NUM; i++)
         {
             const div = document.createElement('div');
 
@@ -208,7 +209,7 @@
 
     function FadeIn()
     {
-        var divs =  document.querySelectorAll(".box");
+        let divs =  document.querySelectorAll(".box");
 
         for(let i = 0; i < divs.length; i++)
         {
@@ -218,7 +219,7 @@
 
     function ClearPanel()
     {
-        var divs =  document.querySelectorAll(".box");
+        let divs =  document.querySelectorAll(".box");
 
         for(let i = 0; i < divs.length; i++)
         {
@@ -231,7 +232,7 @@
 
     function DeletePanel()
     {
-        var divs =  document.querySelectorAll(".box");
+        let divs =  document.querySelectorAll(".box");
 
         for(let i = 0; i < divs.length; i++)
         {
@@ -262,35 +263,35 @@
 
     function GetRandomColor()
     {
-        var category = Math.floor(Math.random() * 3); //rgbどれの数値をいじるか
+        let category = Math.floor(Math.random() * 3); //rgbどれの数値をいじるか
 
         switch(category)
         {
             case 0:
-                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                red = Math.floor(Math.random() * (COLOR_MAX - DIFF_COLOR_NUM) + DIFF_COLOR_NUM);
+                green = Math.floor(Math.random() * (COLOR_MAX - DIFF_COLOR_NUM) + DIFF_COLOR_NUM);
+                blue = Math.floor(Math.random() * (COLOR_MAX - DIFF_COLOR_NUM) + DIFF_COLOR_NUM);
         
                 correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
-                inCorrectColor = 'rgb(' + (red + diffNum) + ', ' + green + ', ' + blue + ')';
+                inCorrectColor = 'rgb(' + (red + DIFF_COLOR_NUM) + ', ' + green + ', ' + blue + ')';
             break;
 
             case 1:
-                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                red = Math.floor(Math.random() * (COLOR_MAX - DIFF_COLOR_NUM) + DIFF_COLOR_NUM);
+                green = Math.floor(Math.random() * (COLOR_MAX - DIFF_COLOR_NUM) + DIFF_COLOR_NUM);
+                blue = Math.floor(Math.random() * (COLOR_MAX - DIFF_COLOR_NUM) + DIFF_COLOR_NUM);
         
                 correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
-                inCorrectColor = 'rgb(' + red + ', ' + (green + diffNum) + ', ' + blue + ')';
+                inCorrectColor = 'rgb(' + red + ', ' + (green + DIFF_COLOR_NUM) + ', ' + blue + ')';
             break;
 
             case 2:
-                red = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                green = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
-                blue = Math.floor(Math.random() * (colorMax - diffNum) + diffNum);
+                red = Math.floor(Math.random() * (COLOR_MAX - DIFF_COLOR_NUM) + DIFF_COLOR_NUM);
+                green = Math.floor(Math.random() * (COLOR_MAX - DIFF_COLOR_NUM) + DIFF_COLOR_NUM);
+                blue = Math.floor(Math.random() * (COLOR_MAX - DIFF_COLOR_NUM) + DIFF_COLOR_NUM);
         
                 correctColor = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
-                inCorrectColor = 'rgb(' + red + ', ' + green + ', ' + (blue + diffNum) + ')';
+                inCorrectColor = 'rgb(' + red + ', ' + green + ', ' + (blue + DIFF_COLOR_NUM) + ')';
             break;
         }
     }
