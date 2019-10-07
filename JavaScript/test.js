@@ -102,6 +102,7 @@
         sectionTitle.style.zIndex = 1;
         sectionCountDown.style.zIndex = 0;
 
+        //ゲームの初期化
         isPlayGame = true;
         timeCount = 30;
         scoreCount = 0;
@@ -112,6 +113,7 @@
     //リザルトを前面に
     function ToResult()
     {
+        //リザルトの更新
         DeletePanel();
         endOverRay.style.zIndex = -1;
         scoreText.innerText = "スコア：" + scoreCount;
