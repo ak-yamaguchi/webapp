@@ -258,6 +258,16 @@
             margin-top: 50px;
         }
 
+        #result .bg .resultText
+        {
+            color: white;
+            font-size: 40px;
+            margin: 0;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 50px;
+        }
+
         #result .bg button
         {
             border: 2px solid white;
@@ -271,5 +281,5 @@
             margin: 0;
             display:table-cell;
             vertical-align:middle;
-            margin-top: 70px;
+            margin-top: 50px;
         }

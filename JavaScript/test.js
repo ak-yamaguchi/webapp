@@ -1,8 +1,9 @@
-'use script';
 
     const num = 16;
 
     var winner = Math.floor(Math.random() * num);
+
+    const colorMax = 225;  //色の最大値
 
     //パネルの色の乱数用
     var red;
@@ -37,8 +38,13 @@
 
     var scoreText = document.querySelector('#result .bg .score');
 
+    var resultText = document.querySelector('#result .bg .resultText');
+
+    const countDownTime = 1100;
+
     GetAttachId();
 
+    //要素の取得
     function GetAttachId()
     {
         timeTextContent  = document.getElementById("headerPanel");
@@ -48,16 +54,17 @@
         sectionResult    = document.getElementById("result");
     }
 
+    //カウントダウン処理の挙動
     function StartCountDown()
     {
-        setTimeout(InCountDownText, 1000, "3");
-        setTimeout(InCountDownText, 2100, "2");
-        setTimeout(InCountDownText, 3300, "1");
-        setTimeout(InCountDownText, 4400, "Start!");
-        setTimeout(ToGameMain, 5500);
+        setTimeout(InCountDownText, countDownTime, "3");
+        setTimeout(InCountDownText, countDownTime * 2, "2");
+        setTimeout(InCountDownText, countDownTime * 3, "1");
+        setTimeout(InCountDownText, countDownTime * 4, "Start!");
+        setTimeout(ToGameMain, countDownTime * 5);
     }
 
-    ////////////
+    //カウントダウンの制御
     function InCountDownText(countText)
     {
         countDownText.innerText = countText;
@@ -76,8 +83,8 @@
         countDownText.classList.remove('textScaleUp');
         countDownText.classList.remove('textFadeOut');
     }
-    //////////////
 
+    //カウントダウンを前面に
     function ToCountDown()
     {
         StartCountDown();
@@ -87,10 +94,9 @@
         sectionTitle.style.zIndex = 0;
     }
 
+    //ゲームメインを前面に
     function ToGameMain()
     {
-        //sectionTitle.style.zIndex = -1;
-
         sectionGameMain.style.zIndex = 3;
         sectionResult.style.zIndex = 2;
         sectionTitle.style.zIndex = 1;
@@ -103,11 +109,13 @@
         CountDown();
     }
 
+    //リザルトを前面に
     function ToResult()
     {
         DeletePanel();
         endOverRay.style.zIndex = -1;
         scoreText.innerText = "スコア：" + scoreCount;
+        resultText.innerText = GetResultText();
         
         sectionResult.style.zIndex =3;
         sectionTitle.style.zIndex = 2;
@@ -115,6 +123,31 @@
         sectionGameMain.style.zIndex = 0;
     }
 
+    function GetResultText()
+    {
+        if(scoreCount <= 5)
+        {
+            return "がんば！";
+        }
+        else if(scoreCount > 5 && scoreCount <= 10)
+        {
+            return "いいね";
+        }
+        else if(scoreCount > 10 && scoreCount <= 15)
+        {
+            return "なかなかやるね";
+        }
+        else if(scoreCount > 15 && scoreCount <= 19)
+        {
+            return "センスある";
+        }
+        else
+        {
+            return "教祖";
+        }
+    }
+
+    //タイトルを前面に
     function ToTitle()
     {
         sectionTitle.style.zIndex = 3;
@@ -128,7 +161,7 @@
     {
         winner = Math.floor(Math.random() * num);
 
-        GetRandomColor();
+        GetRandomColor();    //色の取得
 
         var parentContent = document.getElementById('panelbox');
 
@@ -139,8 +172,7 @@
             div.classList.add('box');
             setTimeout(FadeIn, 15);
             //div.classList.add('fadein');
-            
-            //ここで色更新
+
             if(i === winner)
             {
                 div.style.background = correctColor;
@@ -230,8 +262,6 @@
 
     function GetRandomColor()
     {
-        const colorMax = 225;  //色の最大値
-
         var category = Math.floor(Math.random() * 3); //rgbどれの数値をいじるか
 
         switch(category)
@@ -267,83 +297,83 @@
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //パネルの初期化
-    function InitPanel()
-    {
-        var divs =  document.querySelectorAll(".box");
+    // //パネルの初期化
+    // function InitPanel()
+    // {
+    //     var divs =  document.querySelectorAll(".box");
 
-        for(let i = 0; i < divs.length; i++)
-        {
-            divs[i].addEventListener('click', function()
-            {
-                if(i === winner)
-                {
-                    divs[i].textContent = 'Win';
-                    divs[i].classList.add('win');
-                    setTimeout(ResetPanel, 1000);
-                }
-                else
-                {
-                    divs[i].textContent = 'Lose';
-                    divs[i].classList.add('lose');
-                    //divs[i].removeEventListener('click', arguments.callee, false);
-                }
-            });
-        }
-    }
+    //     for(let i = 0; i < divs.length; i++)
+    //     {
+    //         divs[i].addEventListener('click', function()
+    //         {
+    //             if(i === winner)
+    //             {
+    //                 divs[i].textContent = 'Win';
+    //                 divs[i].classList.add('win');
+    //                 setTimeout(ResetPanel, 1000);
+    //             }
+    //             else
+    //             {
+    //                 divs[i].textContent = 'Lose';
+    //                 divs[i].classList.add('lose');
+    //                 //divs[i].removeEventListener('click', arguments.callee, false);
+    //             }
+    //         });
+    //     }
+    // }
 
-    //正解が押された時のリセット処理
-    function ResetPanel()
-    {
-        winner = Math.floor(Math.random() * num);
+    // //正解が押された時のリセット処理
+    // function ResetPanel()
+    // {
+    //     winner = Math.floor(Math.random() * num);
 
-        var divs =  document.querySelectorAll(".box");
+    //     var divs =  document.querySelectorAll(".box");
 
-        for(let i = 0; i < divs.length; i++)
-        {
-            divs[i].classList.remove('win');
-            divs[i].classList.remove('lose');
-            divs[i].textContent = "";
-        }
+    //     for(let i = 0; i < divs.length; i++)
+    //     {
+    //         divs[i].classList.remove('win');
+    //         divs[i].classList.remove('lose');
+    //         divs[i].textContent = "";
+    //     }
         
-        ChangeColor();
-        InitPanel();
-    }
+    //     ChangeColor();
+    //     InitPanel();
+    // }
 
-    function UpdatePanel(i)
-    {
-        var divs =  document.querySelectorAll(".box");
+    // function UpdatePanel(i)
+    // {
+    //     var divs =  document.querySelectorAll(".box");
 
-        if(i === winner)
-        {
-            divs[i].textContent = 'Win';
-            div[i].classList.add('win');
-            setTimeout(ResetPanel, 1000);
-        }
-        else
-        {
-            div[i].textContent = 'Lose';
-            divs[i].classList.add('lose');
-        }
-    }
+    //     if(i === winner)
+    //     {
+    //         divs[i].textContent = 'Win';
+    //         div[i].classList.add('win');
+    //         setTimeout(ResetPanel, 1000);
+    //     }
+    //     else
+    //     {
+    //         div[i].textContent = 'Lose';
+    //         divs[i].classList.add('lose');
+    //     }
+    // }
 
-    function ChangeColor()
-    {
-        var divs =  document.querySelectorAll(".box");
+    // function ChangeColor()
+    // {
+    //     var divs =  document.querySelectorAll(".box");
 
-        GetRandomColor();
+    //     GetRandomColor();
 
-        for(let i = 0; i < num; i++)
-        {
-            if(i === winner)
-            {
-                divs[i].style.background = correctColor;
-            }
-            else
-            {
-                divs[i].style.background = inCorrectColor;
-            }
-        }
-    }
+    //     for(let i = 0; i < num; i++)
+    //     {
+    //         if(i === winner)
+    //         {
+    //             divs[i].style.background = correctColor;
+    //         }
+    //         else
+    //         {
+    //             divs[i].style.background = inCorrectColor;
+    //         }
+    //     }
+    // }
 
     
