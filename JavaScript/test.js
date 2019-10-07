@@ -51,10 +51,10 @@
     function StartCountDown()
     {
         setTimeout(InCountDownText, 1000, "3");
-        setTimeout(InCountDownText, 2500, "2");
-        setTimeout(InCountDownText, 4000, "1");
-        setTimeout(InCountDownText, 5500, "Start!");
-        setTimeout(ToGameMain, 7000);
+        setTimeout(InCountDownText, 2100, "2");
+        setTimeout(InCountDownText, 3300, "1");
+        setTimeout(InCountDownText, 4400, "Start!");
+        setTimeout(ToGameMain, 5500);
     }
 
     ////////////
@@ -230,8 +230,6 @@
 
     function GetRandomColor()
     {
-        // const flg = Math.random() * 10 < 5 ? true : false
-
         const colorMax = 225;  //色の最大値
 
         var category = Math.floor(Math.random() * 3); //rgbどれの数値をいじるか
