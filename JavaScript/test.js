@@ -185,7 +185,7 @@
                 div.style.background = inCorrectColor;
             }
 
-            var mytap = window.ontouchstart===null?"touchstart":"click";
+            let mytap = window.ontouchstart===null?"touchstart":"click";
 
             div.addEventListener(mytap, function() 
             {
